@@ -154,7 +154,7 @@
 			row.setAttribute('aria-expanded', state ? 'true' : 'false');
 			panel.classList.toggle('active', state);
 			caret.textContent = state ? '▾' : '▸';
-			readout.textContent = clamp(slider.value) + ' px';
+			readout.textContent = String(clamp(slider.value));
 			if (persist) {
 				try { localStorage.setItem(STORE_KEY, state ? '1' : '0'); } catch (e) { /* private mode */ }
 			}
@@ -178,7 +178,7 @@
 
 		slider.addEventListener('input', function () {
 			// Live: the sidebar itself moves as the slider moves.
-			readout.textContent = clamp(slider.value) + ' px';
+			readout.textContent = String(clamp(slider.value));
 			applyIndent(slider.value);
 		});
 

@@ -34,14 +34,18 @@
    category row, so it inherits the tree's own spacing instead of needing to
    invent it. The panel is COLLAPSED by default: .active is only added on open,
    which is what keeps it from being an obtrusive box in the sidebar.
+
+   The current value is drawn as the unread-count pill, in the same place and
+   with the same shape core uses for a category's count, so the row reads as
+   part of the tree rather than as a label with text hanging off it.
    ------------------------------------------------------------------ */
 #sidebar-indent-toggle > .tree-folder-title {
 	display: flex;
 	align-items: center;
 	gap: 0.25rem;
 	cursor: pointer;
-	/* the unread badge core adds to category rows is not wanted here */
 	padding-right: 0.5rem;
+	position: relative;
 }
 
 #sidebar-indent-toggle > .tree-folder-title .title {
@@ -54,11 +58,22 @@
 	opacity: 0.85;
 }
 
+/* The value, as a pill in the position core puts a category's unread count.
+   Right-aligned rather than absolutely positioned so it cannot collide with a
+   long label, and it inherits the theme's colours instead of hardcoding them. */
 #sidebar-indent-toggle .sidebar-indent-value {
 	flex: 0 0 auto;
-	font-size: 0.8rem;
-	opacity: 0.7;
+	min-width: 2rem;
+	margin: 0;
+	padding: 0.25rem 0.5rem;
+	text-align: center;
+	font-size: 0.9rem;
+	font-weight: initial;
+	line-height: 1;
+	border-radius: 0.75rem;
 	font-variant-numeric: tabular-nums;
+	background: var(--background-color-middle, #eee);
+	color: var(--font-color-middle, #333);
 }
 
 /* Hidden until opened. max-height (not display) so the slide matches the
