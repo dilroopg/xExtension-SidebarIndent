@@ -20,11 +20,14 @@ CSS rule.
 ## What it does
 
 - A slider in the sidebar, **directly under the "Important feeds" row**.
-- It starts **collapsed** — one quiet line reading `Feed Indent` with a small count. Click it
-  to open the slider; click again to close it. Nothing is added to the sidebar
+- It starts **collapsed** — one quiet line reading `Feed Indent` with the current
+  value in a small circle on the right, like the other counts in the column. Click
+  it to open the slider; click again to close it. Nothing is added to the sidebar
   until you open it.
 - Dragging the slider moves the indent live, so you can see the result against
   your actual feeds rather than a mock-up. **Save** stores it.
+- The row is deliberately quieter than the category rows around it: smaller type,
+  bold, dimmed — it is a setting, not a feed container.
 - The same slider also appears on the extension's settings page, along with a
   collapsed preview of the sidebar column you can look at before saving.
 
@@ -69,6 +72,18 @@ The sidebar control is injected by JavaScript and anchors on the class list of t
 text — so a translated or renamed label cannot move it somewhere unexpected. It is
 built with `createElement` rather than `innerHTML`, so no markup string is ever
 parsed.
+
+It is also built to **look like the rows it sits among**, which is not cosmetic
+detail but the thing that took the most attempts. Core's category rows are
+`display: block` with an inline-block caret and `.title`, and draw the count as a
+`data-value` `::after` on `.title`. A flex row with a separate `<span>` for the
+value stretches across the row and paints its own background — which lands on top
+of the neighbouring rows' unread counts and reads as a bar over them. Matching
+core's structure is what makes it disappear into the tree.
+
+## Releases
+
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## Limits
 
