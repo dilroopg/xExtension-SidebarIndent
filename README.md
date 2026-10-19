@@ -31,7 +31,7 @@ CSS rule.
 - The same slider also appears on the extension's settings page, along with a
   collapsed preview of the sidebar column you can look at before saving.
 
-![The Feed Indent control in the sidebar](https://raw.githubusercontent.com/dilroopg/freshrss-extensions/master/screenshots/sidebar-indent.png)
+![The Feed Indent control in the sidebar](https://raw.githubusercontent.com/hardlysleeping/freshrss-extensions/master/screenshots/sidebar-indent.png)
 
 Category rows, tag rows, the pseudo-categories (Main stream, Important feeds,
 Favourites) and the main stream itself are all untouched — only the feed rows

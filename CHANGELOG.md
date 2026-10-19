@@ -1,6 +1,6 @@
 # Changelog
 
-Newest first. These version numbers match the [releases page](https://github.com/dilroopg/xExtension-SidebarIndent/releases).
+Newest first. These version numbers match the [releases page](https://github.com/hardlysleeping/xExtension-SidebarIndent/releases).
 
 **1.0.0** — first release.
 
