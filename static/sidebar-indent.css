@@ -29,51 +29,75 @@
 /* ------------------------------------------------------------------
    Inline control in the sidebar (injected by sidebar-indent.js).
 
-   It is a <li class="tree-folder category"> holding one <ul
-   class="tree-folder-items">, which is exactly the shape core uses for a
-   category row, so it inherits the tree's own spacing instead of needing to
-   invent it. The panel is COLLAPSED by default: .active is only added on open,
-   which is what keeps it from being an obtrusive box in the sidebar.
+   Structurally this must match a core category row exactly: <li
+   class="tree-folder category"> with an <a class="tree-folder-title"> whose
+   child is <span class="title">, and the count drawn as a ::after on .title.
 
-   The current value is drawn as the unread-count pill, in the same place and
-   with the same shape core uses for a category's count, so the row reads as
-   part of the tree rather than as a label with text hanging off it.
+   The first attempt used a flex row with a separate <span> for the value. That
+   was wrong in a visible way: core's rows are display:block, so the flex box
+   stretched across the row and painted its own background — a bar over the
+   neighbouring rows' unread counts. Anything that is not block-and-::after
+   stops looking like the rest of the tree.
    ------------------------------------------------------------------ */
 #sidebar-indent-toggle > .tree-folder-title {
-	display: flex;
-	align-items: center;
-	gap: 0.25rem;
+	display: block;
 	cursor: pointer;
-	padding-right: 0.5rem;
-	position: relative;
 }
 
-#sidebar-indent-toggle > .tree-folder-title .title {
-	flex: 1 1 auto;
+/* The caret must be inline, not block: core's .tree-folder-title is a block
+   box, so a block-level button starts its own line and leaves the arrow
+   stranded above the label. Inline-block keeps it on the text's baseline,
+   matching how core's own category carets sit. */
+#sidebar-indent-toggle > .tree-folder-title > .dropdown-toggle {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+	cursor: pointer;
+	color: inherit;
+	font-size: 0.75rem;
+	line-height: 1;
+	opacity: 0.5;
+	width: 1rem;
+	text-align: center;
+}
+
+#sidebar-indent-toggle > .tree-folder-title > .title {
+	display: inline-block;
+	vertical-align: middle;
+	max-width: calc(100% - 4rem);
 	overflow: hidden;
-	text-overflow: ellipsis;
 	white-space: nowrap;
+	text-overflow: ellipsis;
 	font-weight: normal;
-	font-size: 0.9rem;
 	opacity: 0.85;
 }
 
-/* The value, as a pill in the position core puts a category's unread count.
-   Right-aligned rather than absolutely positioned so it cannot collide with a
-   long label, and it inherits the theme's colours instead of hardcoding them. */
-#sidebar-indent-toggle .sidebar-indent-value {
-	flex: 0 0 auto;
+/* The value, as the count core puts on a category row: a ::after on .title,
+   pinned right, same shape. No extra element, no background of its own. */
+#sidebar-indent-toggle > .tree-folder-title > .title::after {
+	content: attr(data-value);
+	position: absolute;
+	top: 50%;
+	right: 0.75rem;
+	transform: translateY(-50%);
 	min-width: 2rem;
-	margin: 0;
 	padding: 0.25rem 0.5rem;
+	display: block;
 	text-align: center;
 	font-size: 0.9rem;
-	font-weight: initial;
 	line-height: 1;
+	font-weight: initial;
 	border-radius: 0.75rem;
-	font-variant-numeric: tabular-nums;
 	background: var(--background-color-middle, #eee);
 	color: var(--font-color-middle, #333);
+	opacity: 1;
+}
+
+/* The positioning context for the ::after above. */
+#sidebar-indent-toggle > .tree-folder-title {
+	position: relative;
 }
 
 /* Hidden until opened. max-height (not display) so the slide matches the

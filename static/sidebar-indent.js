@@ -114,10 +114,6 @@
 		label.textContent = 'Feed indent';
 		row.appendChild(label);
 
-		var readout = document.createElement('span');
-		readout.className = 'sidebar-indent-value';
-		row.appendChild(readout);
-
 		li.appendChild(row);
 
 		var panel = document.createElement('ul');
@@ -154,7 +150,9 @@
 			row.setAttribute('aria-expanded', state ? 'true' : 'false');
 			panel.classList.toggle('active', state);
 			caret.textContent = state ? '▾' : '▸';
-			readout.textContent = String(clamp(slider.value));
+			// The value is a ::after on .title reading this attribute, exactly
+			// as core renders a category's unread count.
+			label.setAttribute('data-value', String(clamp(slider.value)));
 			if (persist) {
 				try { localStorage.setItem(STORE_KEY, state ? '1' : '0'); } catch (e) { /* private mode */ }
 			}
@@ -178,7 +176,7 @@
 
 		slider.addEventListener('input', function () {
 			// Live: the sidebar itself moves as the slider moves.
-			readout.textContent = String(clamp(slider.value));
+			label.setAttribute('data-value', String(clamp(slider.value)));
 			applyIndent(slider.value);
 		});
 
