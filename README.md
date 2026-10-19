@@ -17,7 +17,7 @@ puts the two closer together and stops the sidebar reading as cramped.
 So this is a cosmetic itch, and the fix is deliberately small: a slider, and one
 CSS rule.
 
-![The Feed Indent control in the sidebar, opened](docs/sidebar.png)
+![The Feed Indent control in the sidebar, with a category expanded to show the indent](docs/sidebar.png)
 
 The control sits directly under **Important feeds**. Collapsed it is one line with
 the current value in a circle; opened it shows the slider and **Save**.
