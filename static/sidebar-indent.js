@@ -111,7 +111,7 @@
 
 		var label = document.createElement('span');
 		label.className = 'title';
-		label.textContent = 'Feed indent';
+		label.textContent = 'Feed Indent';
 		row.appendChild(label);
 
 		li.appendChild(row);

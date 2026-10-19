@@ -20,7 +20,7 @@ CSS rule.
 ## What it does
 
 - A slider in the sidebar, **directly under the "Important feeds" row**.
-- It starts **collapsed** — one quiet line reading `Feed indent  12 px`. Click it
+- It starts **collapsed** — one quiet line reading `Feed Indent` with a small count. Click it
   to open the slider; click again to close it. Nothing is added to the sidebar
   until you open it.
 - Dragging the slider moves the indent live, so you can see the result against
@@ -36,7 +36,7 @@ inside a category move.
 
 1. Copy `xExtension-SidebarIndent/` into your FreshRSS `extensions/` directory.
 2. In FreshRSS: **Configuration → Extensions**, enable **Sidebar Feed Indent**.
-3. Open the sidebar and click `Feed indent` under **Important feeds**.
+3. Open the sidebar and click `Feed Indent` under **Important feeds**.
 
 ## How it works
 
