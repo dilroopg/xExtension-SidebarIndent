@@ -1,0 +1,67 @@
+<div class="box">
+	<div class="box-title">
+		<h2><?= _t('ext.sidebar_indent.title') ?></h2>
+	</div>
+	<div class="box-content">
+		<?php
+			$indent = $this->indent();
+		?>
+
+		<form method="post" action="<?= _url('extension', 'configure', 'e', $this->getName()) ?>">
+			<input type="hidden" name="_csrf" value="<?= FreshRSS_Auth::csrfToken() ?>" />
+			<input type="hidden" name="act" value="save_indent" />
+
+			<div class="form-group">
+				<label class="group-name" for="sidebar_indent_px"><?= _t('ext.sidebar_indent.field') ?></label>
+				<div class="group-controls">
+					<input type="range"
+						id="sidebar_indent_px"
+						name="sidebar_indent_px"
+						min="0"
+						max="<?= SidebarIndentExtension::MAX_INDENT ?>"
+						step="1"
+						value="<?= $indent ?>"
+						data-default="<?= SidebarIndentExtension::DEFAULT_INDENT ?>" />
+					<output id="sidebar_indent_readout" for="sidebar_indent_px"><?= $indent ?> px</output>
+
+					<div class="form-actions">
+						<button type="submit" class="btn btn-important"><?= _t('gen.action.submit') ?></button>
+						<button type="button" class="btn" id="sidebar_indent_reset"><?= _t('ext.sidebar_indent.reset') ?></button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<?php /* Collapsed by default so the box stays one line tall until asked. */ ?>
+		<details class="sidebar-indent-details">
+			<summary><?= _t('ext.sidebar_indent.preview') ?></summary>
+			<p class="help"><?= _t('ext.sidebar_indent.scope_note') ?></p>
+
+			<div class="sidebar-indent-preview">
+				<ul class="sip-tree">
+					<li class="sip-category">
+						<span class="sip-folder-title">
+							<span class="sip-caret">▾</span><span class="sip-title"><?= _t('ext.sidebar_indent.sample_category') ?></span>
+						</span>
+						<ul class="sip-items">
+							<li class="sip-item"><span class="sip-item-title"><span class="sip-title"><?= _t('ext.sidebar_indent.sample_feed_a') ?></span></span></li>
+							<li class="sip-item"><span class="sip-item-title"><span class="sip-title"><?= _t('ext.sidebar_indent.sample_feed_b') ?></span></span></li>
+							<li class="sip-item sap-indent-target"><span class="sip-item-title"><span class="sip-title"><?= _t('ext.sidebar_indent.sample_feed_c') ?></span></span></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<p class="help"><?= _t('ext.sidebar_indent.preview_help') ?></p>
+		</details>
+
+		<details class="sidebar-indent-details">
+			<summary><?= _t('ext.sidebar_indent.about_title') ?></summary>
+			<ul>
+				<li><?= _t('ext.sidebar_indent.about_css') ?></li>
+				<li><?= _t('ext.sidebar_indent.about_writes') ?></li>
+				<li><?= _t('ext.sidebar_indent.about_disable') ?></li>
+			</ul>
+		</details>
+	</div>
+</div>

@@ -1,0 +1,8 @@
+{
+	"name": "Sidebar Feed Indent",
+	"author": "dilroopg",
+	"description": "Adds a small left indent to feed rows in the sidebar, so feed names sit further from the edge and closer to the unread count on the right. One number in px, no writes to feeds or categories.",
+	"version": "1.0.0",
+	"entrypoint": "SidebarIndent",
+	"type": "user"
+}

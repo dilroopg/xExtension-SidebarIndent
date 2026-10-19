@@ -1,0 +1,220 @@
+/**
+ * Sidebar Feed Indent
+ *
+ * One rule, one variable. --sidebar-indent-px is set on :root by
+ * static/sidebar-indent.js from the value the extension saved, so this
+ * stylesheet carries no per-install state of its own and can be shipped
+ * unchanged to any instance.
+ *
+ * Target: core renders sidebar feed rows as
+ *   <ul class="tree-folder-items"> <li class="item feed"> <a class="item-title">
+ * inside #aside_feed. The indent goes on .item-title, not on the li, so the
+ * unread badge (an absolutely-positioned ::after pinned to right) and the row
+ * hover background are both unaffected.
+ *
+ * Scoped to #aside_feed so the subscription page, the stats page and the
+ * global view, which reuse .item.feed, keep their current layout.
+ */
+
+:root {
+	--sidebar-indent-px: 0px;
+}
+
+/* Feed rows only: category rows, tag rows and the pseudo-categories
+   (main stream / important / favourites) keep their existing left edge. */
+#aside_feed .tree-folder-items > .item.feed > .item-title {
+	padding-left: var(--sidebar-indent-px);
+}
+
+/* ------------------------------------------------------------------
+   Inline control in the sidebar (injected by sidebar-indent.js).
+
+   It is a <li class="tree-folder category"> holding one <ul
+   class="tree-folder-items">, which is exactly the shape core uses for a
+   category row, so it inherits the tree's own spacing instead of needing to
+   invent it. The panel is COLLAPSED by default: .active is only added on open,
+   which is what keeps it from being an obtrusive box in the sidebar.
+   ------------------------------------------------------------------ */
+#sidebar-indent-toggle > .tree-folder-title {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	cursor: pointer;
+	/* the unread badge core adds to category rows is not wanted here */
+	padding-right: 0.5rem;
+}
+
+#sidebar-indent-toggle > .tree-folder-title .title {
+	flex: 1 1 auto;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: normal;
+	font-size: 0.9rem;
+	opacity: 0.85;
+}
+
+#sidebar-indent-toggle .sidebar-indent-value {
+	flex: 0 0 auto;
+	font-size: 0.8rem;
+	opacity: 0.7;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Hidden until opened. max-height (not display) so the slide matches the
+   tree's own transition, and it is what the whole sidebar uses. */
+#sidebar-indent-panel {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height .2s linear;
+}
+
+#sidebar-indent-panel.active {
+	max-height: 8rem;
+}
+
+#sidebar-indent-panel > .item {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.35rem 0.5rem 0.5rem 1.25rem;
+}
+
+#sidebar-indent-slider {
+	flex: 1 1 auto;
+	min-width: 0;
+	width: auto;
+	margin: 0;
+}
+
+#sidebar-indent-panel .sidebar-indent-save {
+	flex: 0 0 auto;
+	padding: 0.15rem 0.5rem;
+	font-size: 0.75rem;
+	line-height: 1.4;
+}
+
+/* ------------------------------------------------------------------
+   Settings page: the collapsible sections.
+
+   The panel is a short page by design — one slider and two <details> that stay
+   shut until opened — so the extension does not add clutter to the Extensions
+   screen.
+   ------------------------------------------------------------------ */
+.sidebar-indent-details {
+	margin-top: 1rem;
+	border-top: 1px solid var(--border-color-middle, #ccc);
+	padding-top: 0.5rem;
+}
+
+.sidebar-indent-details > summary {
+	cursor: pointer;
+	font-weight: bold;
+	list-style-position: inside;
+}
+
+.sidebar-indent-details[open] > summary {
+	margin-bottom: 0.5rem;
+}
+
+/* Range input: leave the theme's own control styling alone, only make sure it
+   is wide enough to be usable and sits on its own line with the readout. */
+#sidebar_indent_px {
+	width: 240px;
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+#sidebar_indent_readout {
+	display: inline-block;
+	min-width: 3.5rem;
+	margin-left: 0.5rem;
+	vertical-align: middle;
+	font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------
+   Settings page preview.
+
+   Deliberately self-contained: it does NOT reuse .tree / .item / .item-title,
+   because those classes are styled by the active theme and by any other
+   extension touching the sidebar. A preview that borrows them stops being a
+   preview the moment a theme adds a rule.
+   ------------------------------------------------------------------ */
+.sidebar-indent-preview {
+	background: var(--background-color-light, #fff);
+	border: 1px solid var(--border-color-middle, #ccc);
+	border-radius: 3px;
+	padding: 0.5rem 0;
+	max-width: 300px;
+	overflow: hidden;
+}
+
+.sidebar-indent-preview .sip-tree,
+.sidebar-indent-preview .sip-tree ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.sidebar-indent-preview .sip-category {
+	white-space: nowrap;
+}
+
+.sidebar-indent-preview .sip-folder-title {
+	display: block;
+	padding: 0.5rem 0.75rem;
+	font-weight: bold;
+}
+
+.sidebar-indent-preview .sip-caret {
+	display: inline-block;
+	width: 1.25rem;
+}
+
+.sidebar-indent-preview .sip-item {
+	font-size: 0.9rem;
+	white-space: nowrap;
+}
+
+.sidebar-indent-preview .sip-item-title {
+	display: inline-block;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.4rem 3.5rem 0.4rem 0;
+	/* The one live value. Same variable as the real sidebar, so the
+	   preview cannot drift away from what the rule above does. */
+	margin-left: var(--sidebar-indent-px);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* The unread count, drawn the way the sidebar draws it: pinned right. */
+.sidebar-indent-preview .sip-item {
+	position: relative;
+}
+
+.sidebar-indent-preview .sip-item-title::after {
+	position: absolute;
+	top: 0.4rem;
+	right: 0.75rem;
+	content: "3";
+	min-width: 2rem;
+	padding: 0.25rem 0.5rem;
+	text-align: center;
+	font-size: 0.85rem;
+	line-height: 1;
+	border-radius: 0.75rem;
+	background: var(--background-color-middle, #eee);
+	color: var(--font-color-middle, #333);
+}
+
+/* The last sample row is the one being pointed at. */
+.sidebar-indent-preview .sap-indent-target {
+	background: var(--background-color-hover, rgba(0, 0, 0, 0.04));
+}
+
+.sidebar-indent-preview .sap-indent-target > .sip-item-title::after {
+	content: "7";
+	font-weight: bold;
+}
