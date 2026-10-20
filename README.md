@@ -114,3 +114,7 @@ indent is kept, so re-enabling brings back the value you had.
 ## License
 
 GPL-3.0. See `LICENSE`.
+
+## Support
+
+[![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=RNT5W4XNC64EY)
